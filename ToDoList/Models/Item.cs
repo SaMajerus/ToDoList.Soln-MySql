@@ -1,3 +1,4 @@
+using MySql.Data.MySqlClient;
 using System.Collections.Generic; 
 
 namespace ToDoList.Models
@@ -6,28 +7,52 @@ namespace ToDoList.Models
   {
     public string Description { get; set; }
     public int Id { get; }  //"Read-only" property
-    private static List<Item> _instances = new List<Item> {}; 
-
-    public Item(string description)
+    
+    public Item(string description, int id)
     {
-      Description = description;
-      _instances.Add(this); //Adds Item to '_instances'
-      Id = _instances.Count;
+      Description = description; 
+      Id = id; 
     }
 
-    public static List<Item> GetAll()  //'Getter' method
+    //Returns all records from the Database 
+    public static List<Item> GetAll()
     {
-      return _instances;
+        List<Item> allItems = new List<Item> { };
+        MySqlConnection conn = DB.Connection();
+        conn.Open();  //1.) Opens a database connection
+
+        //Constructs an SQL query
+        MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = "SELECT * FROM items;";
+
+        //Returns the query results from the database
+        MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader; 
+        while (rdr.Read()) 
+        {
+            int itemId = rdr.GetInt32(0);
+            string itemDescription = rdr.GetString(1);
+            Item newItem = new Item(itemDescription, itemId);
+            allItems.Add(newItem);
+        }
+
+        //Closes the connection [to the database] 
+        conn.Close();
+        if (conn != null)
+        {
+            conn.Dispose();
+        }
+        return allItems;
     }
 
     public static void ClearAll()
     {
-      _instances.Clear();
     }
 
     public static Item Find(int searchId)
     {
-      return _instances[searchId-1];
+      // Temporarily returning placeholder item to get beyond compiler errors until we refactor to work with database.
+      Item placeholderItem = new Item("placeholder item");
+      return placeholderItem;
     }
 
   }
