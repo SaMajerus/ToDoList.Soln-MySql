@@ -6,7 +6,7 @@ namespace ToDoList.Models
   public class Item
   {
     public string Description { get; set; }
-    public int Id { get; }  //"Read-only" property
+    public int Id { get; set; }  
     
     public Item(string description)
     {
@@ -28,8 +28,9 @@ namespace ToDoList.Models
       else
       {
         Item newItem = (Item) otherItem;
+        bool idEquality = (this.Id == newItem.Id);
         bool descriptionEquality = (this.Description == newItem.Description);
-        return descriptionEquality;
+        return (idEquality && descriptionEquality);
       }
     }
 
@@ -78,11 +79,40 @@ namespace ToDoList.Models
       }
     }
 
+
     public static Item Find(int searchId)
     {
       // Temporarily returning placeholder item to get beyond compiler errors until we refactor to work with database.
       Item placeholderItem = new Item("placeholder item");
       return placeholderItem;
+    }
+
+
+    public void Save()  //Saves 'Item' objects to the database 
+    { 
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+
+
+      /* Begin new code */ 
+
+      cmd.CommandText = "INSERT INTO items (description) VALUES (@ItemDescription);";
+      MySqlParameter param = new MySqlParameter();
+      param.ParameterName = "@ItemDescription";
+      param.Value = this.Description;
+      cmd.Parameters.Add(param);    
+      cmd.ExecuteNonQuery();
+      Id = (int) cmd.LastInsertedId;   //Returns an id from the Database 
+
+      /* End new code */ 
+
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
     }
 
   }
