@@ -19,6 +19,20 @@ namespace ToDoList.Models
       Id = id; 
     }
 
+    public override bool Equals(System.Object otherItem)  //Special method to Override Built-In methods (for "...when we want our app to know when we want two objects to be considered the same".  -Lsn 11) 
+    {
+      if (!(otherItem is Item))
+      {
+        return false;
+      }
+      else
+      {
+        Item newItem = (Item) otherItem;
+        bool descriptionEquality = (this.Description == newItem.Description);
+        return descriptionEquality;
+      }
+    }
+
     //Returns all records from the Database 
     public static List<Item> GetAll()
     {
