@@ -44,8 +44,19 @@ namespace ToDoList.Models
         return allItems;
     }
 
-    public static void ClearAll()
+    //**Refactored in Wk10, Lsn 10 [https://www.learnhowtoprogram.com/c-and-net/database-basics/deleting-objects-in-the-database]
+    public static void ClearAll()  
     {
+      MySqlConnection conn = DB.Connection();
+      conn.Open(); 
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = "DELETE FROM items;";  //SQL statement 'DELETE FROM items;' clears the entire 'items' table in our given database. 
+      cmd.ExecuteNonQuery(); //"SQL statements that modify data instead of querying and returning data are executed with [this method]." 
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
     }
 
     public static Item Find(int searchId)
