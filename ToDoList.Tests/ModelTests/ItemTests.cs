@@ -21,6 +21,20 @@ namespace ToDoList.Tests
     }
 
     [TestMethod]
+    public void GetAll_ReturnsEmptyListFromDatabase_ItemList()  //Confirms that we begin with an empty test-database
+    {
+      //Arrange
+      List<Item> newList = new List<Item> { };
+
+      //Act
+      List<Item> result = Item.GetAll();
+
+      //Assert
+      CollectionAssert.AreEqual(newList, result);
+    }
+
+/*
+    [TestMethod]
     public void ItemConstructor_CreatesInstanceOfItem_Item()
     {
       Item newItem = new Item("test");  
@@ -115,6 +129,6 @@ namespace ToDoList.Tests
 
       //Assert
       Assert.AreEqual(newItem2, result);
-    }
+    }*/
   }
 }
