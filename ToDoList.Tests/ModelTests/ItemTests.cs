@@ -1,3 +1,4 @@
+using MySql.Data.MySqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoList.Models;
 using System.Collections.Generic;
@@ -11,6 +12,12 @@ namespace ToDoList.Tests
 
     public void Dispose(){
       Item.ClearAll();
+    }
+
+    // The method below is new code.
+    public ItemTests()
+    {
+      DBConfiguration.ConnectionString = "server=localhost;user id=root;password=epicodus;port=3306;database=to_do_list_test;";
     }
 
     [TestMethod]
