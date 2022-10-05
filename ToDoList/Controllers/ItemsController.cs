@@ -25,6 +25,12 @@ namespace ToDoList.Controllers
         return View();
     }
 
+    public ActionResult Details(int id)
+    {
+        Item thisItem = _db.Items.FirstOrDefault(item => item.ItemId == id);
+        return View(thisItem);
+    }
+
     [HttpPost]
     public ActionResult Create(Item item)
     {
