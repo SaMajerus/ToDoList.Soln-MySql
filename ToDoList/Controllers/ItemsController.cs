@@ -20,6 +20,7 @@ namespace ToDoList.Controllers
       return View(model);
     }
 
+/*
     public ActionResult Create()
     {
         return View();
@@ -31,6 +32,6 @@ namespace ToDoList.Controllers
         _db.Items.Add(item);
         _db.SaveChanges();
         return RedirectToAction("Index");
-    }
+    }*/
   }
 }
