@@ -1,13 +1,14 @@
-using MySql.Data.MySqlClient;
-using System.Collections.Generic; 
-
+//using MySql.Data.MySqlClient;
+//using System.Collections.Generic; 
+//
 namespace ToDoList.Models
 {
   public class Item
   {
-    public string Description { get; set; }
-    public int Id { get; set; }  
-    
+    public int ItemId { get; set; }
+    public string Description { get; set; }  
+
+/*    
     public Item(string description)
     {
       Description = description;  
@@ -16,7 +17,7 @@ namespace ToDoList.Models
     public Item(string description, int id)
     {
       Description = description; 
-      Id = id; 
+      ItemId = id; 
     }
 
     public override bool Equals(System.Object otherItem)  //Special method to Override Built-In methods (for "...when we want our app to know when we want two objects to be considered the same".  -Lsn 11) 
@@ -28,7 +29,7 @@ namespace ToDoList.Models
       else
       {
         Item newItem = (Item) otherItem;
-        bool idEquality = (this.Id == newItem.Id);
+        bool idEquality = (this.ItemId == newItem.ItemId);
         bool descriptionEquality = (this.Description == newItem.Description);
         return (idEquality && descriptionEquality);
       }
@@ -124,7 +125,7 @@ namespace ToDoList.Models
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
 
 
-      /* Begin new code */ 
+      * Begin new code * 
 
       cmd.CommandText = "INSERT INTO items (description) VALUES (@ItemDescription);";
       MySqlParameter param = new MySqlParameter();
@@ -132,9 +133,9 @@ namespace ToDoList.Models
       param.Value = this.Description;
       cmd.Parameters.Add(param);    
       cmd.ExecuteNonQuery();
-      Id = (int) cmd.LastInsertedId;   //Returns an id from the Database 
+      ItemId = (int) cmd.LastInsertedId;   //Returns an id from the Database 
 
-      /* End new code */ 
+      * End new code * 
 
 
       conn.Close();
@@ -142,7 +143,7 @@ namespace ToDoList.Models
       {
         conn.Dispose();
       }
-    }
+    }*/
 
   }
 }
